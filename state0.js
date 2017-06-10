@@ -1,18 +1,41 @@
 var demo = {};
+var speed = 4;
+var centreX = 1500/2;
+var centreY = 1000/2;
 demo.state0 = function(){};
+var adam;
 
 demo.state0.prototype = {
-    preload:function(){},
+    preload:function(){
+        game.load.image('adam','assets/sprites/adam.png');
+    },
     create:function(){
         console.log('State 0');
-        game.stage.backgroundColor = '#f4b942';
+        game.stage.backgroundColor = '#800080';
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        
+        adam = game.add.sprite(centreX,centreY,'adam');
+        adam.anchor.x = 0.5;
+        adam.anchor.y = 0.5;
         
         addChangeStateEventListeners();
         
     },
-    update:function(){}
+    update:function(){
+        
+        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+                adam.x +=speed;
+           }
+        if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+                adam.x -=speed;
+            }
+        if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+                adam.y-=speed;
+            }
+        if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+                adam.y+=speed;
+            }
+        
+                }
 };
 
 
