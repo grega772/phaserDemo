@@ -5,7 +5,7 @@ demo.state7.prototype = {
     preload:function(){},
     create:function(){
         console.log('State 7');
-        game.stage.backgroundColor = '#f4b942';
+        game.stage.backgroundColor = '#ff5050';
         addChangeStateEventListeners();
     },
     update:function(){}
