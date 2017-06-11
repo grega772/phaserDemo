@@ -7,33 +7,66 @@ var adam;
 
 demo.state0.prototype = {
     preload:function(){
-        game.load.image('adam','assets/sprites/adam.png');
+        game.load.spritesheet('adam','assets/spritesheets/adamSheet.png',240,370);
+        game.load.image('background','assets/backgrounds/treeBG.png');
     },
     create:function(){
         console.log('State 0');
+        game.physics.startSystem(Phaser.Physics.ARCADE);
         game.stage.backgroundColor = '#800080';
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.world.setBounds(0,0,2813,1000)
+        var treeBG = game.add.sprite(0,0,'background');
         adam = game.add.sprite(centreX,centreY,'adam');
         adam.anchor.x = 0.5;
         adam.anchor.y = 0.5;
+        adam.scale.setTo(0.7,0.7);
+        game.physics.enable(adam);
+        adam.body.collideWorldBounds = true;
+        
+        adam.animations.add('walk',[0,1,2,3,4]);
+        adam.animations.add('stop',[0])
+        
+        
+        game.camera.follow(adam);
+        game.camera.deadzone = new Phaser.Rectangle(centreX-300,0,600,1000);
+        
+        
         
         addChangeStateEventListeners();
         
     },
     update:function(){
         
+        var flag=false;
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+                adam.scale.setTo(0.7,0.7);
                 adam.x +=speed;
+                adam.animations.play('walk',14,true)
+                flag = true;
            }
         if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+                adam.scale.setTo(-0.7,0.7);
                 adam.x -=speed;
+                adam.animations.play('walk',14,true)
+                flag=true;
             }
         if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
-                adam.y-=speed;
+                if(adam.y>395){
+                        adam.y-=speed;
+                        adam.animations.play('walk',14,true)
+                   }
+                flag=true;
             }
         if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
                 adam.y+=speed;
+                adam.animations.play('walk',14,true)
+                flag=true;
             }
+            if(!flag){
+                adam.animations.stop('walk');
+                adam.animations.play('stop',14,false);
+               }
         
                 }
 };
